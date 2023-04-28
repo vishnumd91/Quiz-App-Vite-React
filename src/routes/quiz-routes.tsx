@@ -3,8 +3,9 @@ import QuizHome from "../pages/quiz-home";
 import QuizSelect from "../pages/quiz-select";
 import QuizPage from "../pages/quiz-page";
 import QuizResult from "../pages/quiz-result";
+import { ReactElement } from "react";
 
-export const QuizRoutes = () => {
+export const QuizRoutes = (): ReactElement => {
   return (
     <div>
       <Routes>

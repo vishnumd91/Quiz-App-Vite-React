@@ -1,6 +1,7 @@
+import { ReactElement } from "react";
 import { Home } from "../components";
 
-const QuizHome = () => {
+const QuizHome = (): ReactElement => {
   return (
     <>
       <Home />

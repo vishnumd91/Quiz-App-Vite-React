@@ -1,6 +1,7 @@
+import { ReactElement } from "react";
 import { QuizSelectComponent } from "../components";
 
-const QuizSelect = () => {
+const QuizSelect = (): ReactElement => {
   return (
     <div>
       <QuizSelectComponent />

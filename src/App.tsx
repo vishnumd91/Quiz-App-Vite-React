@@ -1,6 +1,7 @@
+import { ReactElement } from "react";
 import { QuizRoutes } from "./routes";
 
-function App() {
+const App = (): ReactElement => {
   return (
     <>
       <QuizRoutes />
