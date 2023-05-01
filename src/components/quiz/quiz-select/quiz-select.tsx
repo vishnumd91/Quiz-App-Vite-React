@@ -1,27 +1,33 @@
 import { ReactElement } from "react";
 import classes from "./quiz-select.module.css";
-import { Link } from "react-router-dom";
-import { useQuizContext } from "../../../context";
+import { useNavigate } from "react-router-dom";
 
 export const QuizSelectComponent = (): ReactElement => {
-  const { setSelectedQuiz } = useQuizContext();
+  const navigate = useNavigate();
+
+  const handleNavigate = (quizType: string) => {
+    navigate("/quiz-page", {
+      state: quizType,
+    });
+  };
+
   return (
     <div className={classes.landingPage}>
       <div className={classes.center}>
         <div className={`${classes.section} ${classes.music}`}>
-          <Link to="/quiz-page" onClick={() => setSelectedQuiz("music")}>
+          <button type="submit" onClick={() => handleNavigate("music")}>
             Music
-          </Link>
+          </button>
         </div>
         <div className={`${classes.section} ${classes.modernArt}`}>
-          <Link to="/quiz-page" onClick={() => setSelectedQuiz("art")}>
+          <button type="submit" onClick={() => handleNavigate("art")}>
             Modern Art
-          </Link>
+          </button>
         </div>
         <div className={`${classes.section} ${classes.code}`}>
-          <Link to="/quiz-page" onClick={() => setSelectedQuiz("coding")}>
+          <button type="submit" onClick={() => handleNavigate("coding")}>
             Code
-          </Link>
+          </button>
         </div>
       </div>
     </div>

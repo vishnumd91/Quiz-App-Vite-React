@@ -23,10 +23,13 @@
     border-radius: 10px;
     font-size: 25px;
   }
-  .section a {
-    text-decoration: none;
+  .section > button {
     color: white;
     white-space: pre;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: large;
   }
   
   .section:hover {

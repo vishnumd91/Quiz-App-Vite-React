@@ -10,17 +10,17 @@ import {
 type QuizContextProps = {
   selectedQuiz: string;
   setSelectedQuiz: Dispatch<string>;
-  //   quizData: QuizDataType[];
+  // quizData: QuizDataType[];
   //   setQuizData: Dispatch<QuizDataType>;
 };
 
-// type QuizDataType = {
-//   id: number;
-//   question: string;
-//   options: string[];
-//   answer: string;
-//   category: string;
-// };
+export type QuizDataType = {
+  id: number;
+  question: string;
+  options: string[];
+  answer: string;
+  category: string;
+};
 
 type QuizContextProviderProps = {
   children: ReactNode;
@@ -33,7 +33,7 @@ export const QuizContextProvider = ({
   children,
 }: QuizContextProviderProps): ReactElement => {
   const [selectedQuiz, setSelectedQuiz] = useState("music");
-  //   const [quizData, setQuizData] = useState([]);
+  // const [quizData, setQuizData] = useState([]);
 
   const context = {
     selectedQuiz,
