@@ -42,53 +42,45 @@ export const QuizPageComponent = (): ReactElement => {
   // Find the proper question based on the manually defined indexValue
   const findQuizByIndex = () => {
     const selectedQuestion = quizData?.find(
-      (quiz) => quiz.id === quizData[indexValue]?.id
+      (quiz) => quiz?.id === quizData[indexValue]?.id
     );
     setQuizQuestion(selectedQuestion);
-  };
-
-  const handlePrevious = () => {
-    setIndexValue((prev) => prev - 1);
-    findQuizByIndex();
-  };
-
-  const handleNext = () => {
-    setIndexValue((prev) => prev + 1);
-    findQuizByIndex();
   };
 
   const handleSubmit = () => navigate("/quiz-result");
 
   return (
-    <>
-      <div className={classes.container1} key={quizQuestion?.id}>
-        <div className={classes.container}>
-          {/* Question Number */}
-          <div className={classes.questionNumber}>
-            <span>{indexValue + 1}</span>
-            <span>/</span>
-            <span>{quizData?.length}</span>
-          </div>
+    <div className={classes.container1} key={quizQuestion?.id}>
+      <div className={classes.container}>
+        {/* Question Number */}
+        <div className={classes.questionNumber}>
+          <span>
+            {indexValue + 1} / {quizData?.length}
+          </span>
+        </div>
 
-          {/* Question */}
-          <div className={classes.content}>{quizQuestion?.question}</div>
+        {/* Question */}
+        <div className={classes.content}>{quizQuestion?.question}</div>
 
-          <QuizOptions options={quizQuestion?.options} />
+        <QuizOptions options={quizQuestion?.options} />
 
-          {/* Controls */}
-          <div className={classes.controls}>
-            {indexValue > 0 ? (
-              <button onClick={handlePrevious}>Previous</button>
-            ) : null}
-            {indexValue !== quizData.length - 1 ? (
-              <button onClick={handleNext}>Next</button>
-            ) : null}
-            {indexValue === quizData.length - 1 ? (
-              <button onClick={handleSubmit}>Submit</button>
-            ) : null}
-          </div>
+        {/* Controls */}
+        <div className={classes.controls}>
+          {indexValue > 0 ? (
+            <button onClick={() => setIndexValue((prev) => prev - 1)}>
+              Previous
+            </button>
+          ) : null}
+          {indexValue !== quizData.length - 1 ? (
+            <button onClick={() => setIndexValue((prev) => prev + 1)}>
+              Next
+            </button>
+          ) : null}
+          {indexValue === quizData.length - 1 ? (
+            <button onClick={handleSubmit}>Submit</button>
+          ) : null}
         </div>
       </div>
-    </>
+    </div>
   );
 };

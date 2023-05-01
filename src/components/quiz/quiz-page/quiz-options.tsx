@@ -4,7 +4,6 @@ import classes from "./quiz-page.module.css";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const QuizOptions = (props: any): ReactElement => {
   const { options } = props;
-  console.log("prop", props.options);
 
   return (
     <div style={{ width: "80%" }}>
