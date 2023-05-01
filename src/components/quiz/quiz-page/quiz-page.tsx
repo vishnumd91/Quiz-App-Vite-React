@@ -1,19 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ReactElement, useEffect, useState } from "react";
 import classes from "./quiz-page.module.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { QuizDataType } from "../../../context";
 import data from "../../../data/dataset.json";
-import { QuizOptions } from ".";
+import { QuizOptions } from "./quiz-options";
 
 export const QuizPageComponent = (): ReactElement => {
+  const navigate = useNavigate();
   const [quizData, setQuizData] = useState<QuizDataType[]>([]);
+  const [quizQuestion, setQuizQuestion] = useState<QuizDataType>();
+  const [indexValue, setIndexValue] = useState<number>(0);
   const { state: quizType } = useLocation();
   const { music, "modern-art": modern_art, coding } = data;
 
   useEffect(() => {
     getQuizDataByType();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    findQuizByIndex();
+  }, [indexValue, quizData]);
 
   const getQuizDataByType = () => {
     switch (quizType) {
@@ -32,32 +39,53 @@ export const QuizPageComponent = (): ReactElement => {
     }
   };
 
-  const handlePrevious = () => "";
+  // Find the proper question based on the manually defined indexValue
+  const findQuizByIndex = () => {
+    const selectedQuestion = quizData?.find(
+      (quiz) => quiz.id === quizData[indexValue]?.id
+    );
+    setQuizQuestion(selectedQuestion);
+  };
 
-  const handleNext = () => "";
+  const handlePrevious = () => {
+    setIndexValue((prev) => prev - 1);
+    findQuizByIndex();
+  };
 
-  const handleSubmit = () => "";
+  const handleNext = () => {
+    setIndexValue((prev) => prev + 1);
+    findQuizByIndex();
+  };
+
+  const handleSubmit = () => navigate("/quiz-result");
 
   return (
     <>
-      <div className={classes.container1} key={quizData[0]?.id}>
+      <div className={classes.container1} key={quizQuestion?.id}>
         <div className={classes.container}>
           {/* Question Number */}
           <div className={classes.questionNumber}>
-            <span>{quizData[0]?.id}</span>
+            <span>{indexValue + 1}</span>
             <span>/</span>
             <span>{quizData?.length}</span>
           </div>
 
           {/* Question */}
-          <div className={classes.content}>{quizData[0]?.question}</div>
-          <QuizOptions options={quizData[0]?.options} />
+          <div className={classes.content}>{quizQuestion?.question}</div>
+
+          <QuizOptions options={quizQuestion?.options} />
 
           {/* Controls */}
           <div className={classes.controls}>
-            <button onClick={handlePrevious}>Previous</button>
-            <button onClick={handleNext}>Next</button>
-            <button onClick={handleSubmit}>Submit</button>
+            {indexValue > 0 ? (
+              <button onClick={handlePrevious}>Previous</button>
+            ) : null}
+            {indexValue !== quizData.length - 1 ? (
+              <button onClick={handleNext}>Next</button>
+            ) : null}
+            {indexValue === quizData.length - 1 ? (
+              <button onClick={handleSubmit}>Submit</button>
+            ) : null}
           </div>
         </div>
       </div>
