@@ -2,15 +2,14 @@
 import { ReactElement, useEffect, useState } from "react";
 import classes from "./quiz-page.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { QuizDataType } from "../../../context";
+import { QuizDataType, useQuizContext } from "../../../context";
 import data from "../../../data/dataset.json";
 import { QuizOptions } from "./quiz-options";
 
 export const QuizPageComponent = (): ReactElement => {
   const navigate = useNavigate();
-  const [quizData, setQuizData] = useState<QuizDataType[]>([]);
+  const { quizData, setQuizData, indexValue, setIndexValue } = useQuizContext();
   const [quizQuestion, setQuizQuestion] = useState<QuizDataType>();
-  const [indexValue, setIndexValue] = useState<number>(0);
   const { state: quizType } = useLocation();
   const { music, "modern-art": modern_art, coding } = data;
 
@@ -47,7 +46,11 @@ export const QuizPageComponent = (): ReactElement => {
     setQuizQuestion(selectedQuestion);
   };
 
-  const handleSubmit = () => navigate("/quiz-result");
+  const handleSubmit = () => {
+    navigate("/quiz-result");
+    // This will reset the state to initial value, so that for all quiz, it will start from 1st question
+    setIndexValue(0);
+  };
 
   return (
     <div className={classes.container1} key={quizQuestion?.id}>
@@ -67,14 +70,12 @@ export const QuizPageComponent = (): ReactElement => {
         {/* Controls */}
         <div className={classes.controls}>
           {indexValue > 0 ? (
-            <button onClick={() => setIndexValue((prev) => prev - 1)}>
+            <button onClick={() => setIndexValue(indexValue - 1)}>
               Previous
             </button>
           ) : null}
           {indexValue !== quizData.length - 1 ? (
-            <button onClick={() => setIndexValue((prev) => prev + 1)}>
-              Next
-            </button>
+            <button onClick={() => setIndexValue(indexValue + 1)}>Next</button>
           ) : null}
           {indexValue === quizData.length - 1 ? (
             <button onClick={handleSubmit}>Submit</button>
